@@ -1,0 +1,137 @@
+{
+  "project_info": {
+    "project_number": "192903334349",
+    "project_id": "mcqdemo-6d46c",
+    "storage_bucket": "mcqdemo-6d46c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:192903334349:android:322d22018d05a08130dc84",
+        "android_client_info": {
+          "package_name": "com.example.mcq_provider_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "192903334349-8ptcp0rpa5ho3eift6k09d69h6imc31m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mcq_provider_app",
+            "certificate_hash": "7e9668ac11b0d50bc5f121b46e29a82fde494152"
+          }
+        },
+        {
+          "client_id": "192903334349-i39fdd2f7nfh9946j55jabtmc846r91o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mcq_provider_app",
+            "certificate_hash": "e8a4ed711191a602f6a499d38a92d65f28aecfb5"
+          }
+        },
+        {
+          "client_id": "192903334349-m1druke0sq67napfm0onccihj6eebnl8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0iI9te57gAC6hT5dBkQdTuf8981Ivz6w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "192903334349-m1druke0sq67napfm0onccihj6eebnl8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:192903334349:android:d760ec5bf6a35c0530dc84",
+        "android_client_info": {
+          "package_name": "com.example.mcqdemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "192903334349-fldbpmraucpfh9vgnfv82h54kuf8nrgj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mcqdemo",
+            "certificate_hash": "e8a4ed711191a602f6a499d38a92d65f28aecfb5"
+          }
+        },
+        {
+          "client_id": "192903334349-m1druke0sq67napfm0onccihj6eebnl8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0iI9te57gAC6hT5dBkQdTuf8981Ivz6w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "192903334349-m1druke0sq67napfm0onccihj6eebnl8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:192903334349:android:faff15f9a9de1ead30dc84",
+        "android_client_info": {
+          "package_name": "com.example.travel_trip_task"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "192903334349-nr493itc08hoshakn7f6oqsdsslf0a7a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.travel_trip_task",
+            "certificate_hash": "e8a4ed711191a602f6a499d38a92d65f28aecfb5"
+          }
+        },
+        {
+          "client_id": "192903334349-u3770bj4gbmugar297pi9rrane2arbka.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.travel_trip_task",
+            "certificate_hash": "47b016543da3ba6b6c71482b0e1c51ea98a1445b"
+          }
+        },
+        {
+          "client_id": "192903334349-m1druke0sq67napfm0onccihj6eebnl8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0iI9te57gAC6hT5dBkQdTuf8981Ivz6w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "192903334349-m1druke0sq67napfm0onccihj6eebnl8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
