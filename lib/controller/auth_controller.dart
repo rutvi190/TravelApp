@@ -9,7 +9,6 @@ class AuthController extends GetxController {
   final RxBool isLoading = false.obs;
   final RxString errorMessage = ''.obs;
 
-  /// Updated signup function
   Future<bool> signup({
     required String username,
     required String email,
@@ -26,7 +25,7 @@ class AuthController extends GetxController {
     try {
       isLoading.value = true;
 
-      final UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+      final userCredential = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -34,6 +33,7 @@ class AuthController extends GetxController {
       final uid = userCredential.user?.uid;
       if (uid != null) {
         await _firestore.collection('tripusers').doc(uid).set({
+          'uid': uid,
           'username': username,
           'email': email,
           'contact': contact,
@@ -51,23 +51,21 @@ class AuthController extends GetxController {
     }
   }
 
-  /// Login only allows 'user' role
   Future<bool> login(String email, String password) async {
     try {
       isLoading.value = true;
 
-      final UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+      final userCredential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
 
       final uid = userCredential.user?.uid;
-      final userDoc = await _firestore.collection('users').doc(uid).get();
-      final role = userDoc.data()?['role'];
+      if (uid == null) throw FirebaseAuthException(code: 'no-user', message: 'User ID is null');
 
-      if (role != 'user') {
-        await _auth.signOut();
-        errorMessage.value = 'This is not a user account';
+      final doc = await _firestore.collection('tripusers').doc(uid).get();
+      if (!doc.exists) {
+        errorMessage.value = 'User data not found in database';
         return false;
       }
 
@@ -78,9 +76,5 @@ class AuthController extends GetxController {
     } finally {
       isLoading.value = false;
     }
-  }
-
-  Future<void> logout() async {
-    await _auth.signOut();
   }
 }

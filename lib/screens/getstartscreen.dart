@@ -21,7 +21,7 @@ class _GetstartscreenState extends State<Getstartscreen> {
           //   "https://image.winudf.com/v2/image1/Y29tLmtpc3NhbmRmbHkuYXZpYV9zY3JlZW5fMF8xNzIyOTQ1ODA3XzAzOA/screen-0.jpg?fakeurl=1&type=.jpg",
           //   fit: BoxFit.cover,
           // ),
-          child: Image.asset("assets/images/onboarding.png",fit: BoxFit.cover,),
+          child: Image.asset("assets/images/onboarding1.png",fit: BoxFit.cover,),
         ),
         Align(
           alignment: Alignment.bottomCenter,
