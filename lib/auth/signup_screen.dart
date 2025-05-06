@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:travel_trip_task/auth/login_screen.dart';
 import 'package:travel_trip_task/controller/auth_controller.dart';
 import 'package:travel_trip_task/core/appColor.dart';
+import 'package:travel_trip_task/screens/dashboard_screen.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -34,7 +35,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 width: double.infinity,
                 fit: BoxFit.cover,
               ),
-              Container(color: Colors.black.withOpacity(0.2)),
+              Container(color: Colors.black.withOpacity(0.3)),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Center(
@@ -62,10 +63,10 @@ class _SignupScreenState extends State<SignupScreen> {
                             );
 
                             if (success) {
-                              Get.snackbar('Success', 'Account created successfully');
-                              Get.off(() => const LoginScreen());
+                              Get.snackbar('Success', 'Account created successfully',backgroundColor: AppColors.textPrimary);
+                              Get.off(() => DashboardScreen());
                             } else {
-                              Get.snackbar('Error', authController.errorMessage.value);
+                              Get.snackbar('Error', authController.errorMessage.value,backgroundColor: AppColors.textPrimary);
                             }
                           },
                           child: const Text("  Sign Up  "),
@@ -75,7 +76,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           children: [
                             Text("Already Have an Account?", style: TextStyle(color: AppColors.textPrimary)),
                             TextButton(
-                              onPressed: () => Get.to(() => const LoginScreen()),
+                              onPressed: () => Get.to(() => LoginScreen()),
                               child: Text("Sign In", style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold)),
                             )
                           ],
@@ -97,6 +98,7 @@ class _SignupScreenState extends State<SignupScreen> {
       children: [
         TextField(
           controller: controller,
+          cursorColor: AppColors.textPrimary,
           style: TextStyle(color: AppColors.textPrimary),
           decoration: InputDecoration(
             hintText: hint,
@@ -116,6 +118,7 @@ class _SignupScreenState extends State<SignupScreen> {
       children: [
         TextField(
           controller: controller,
+          cursorColor: AppColors.textPrimary,
           obscureText: passwordVisible,
           style: TextStyle(color: AppColors.textPrimary),
           decoration: InputDecoration(

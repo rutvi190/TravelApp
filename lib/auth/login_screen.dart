@@ -30,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: double.infinity,
                 fit: BoxFit.cover,
               ),
-              Container(color: Colors.black.withOpacity(0.1)),
+              Container(color: Colors.black.withOpacity(0.3)),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Center(
@@ -50,10 +50,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             );
 
                             if (success) {
-                              Get.snackbar('Success', 'Login successful');
+                              Get.snackbar('Success', 'Login successful',backgroundColor: AppColors.textPrimary);
                               // Navigate to main dashboard or home screen
                             } else {
-                              Get.snackbar('Error', authController.errorMessage.value);
+                              Get.snackbar('Error', authController.errorMessage.value,backgroundColor: AppColors.textPrimary);
                             }
                           },
                           child: const Text("  Login  "),
@@ -85,6 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
       children: [
         TextField(
           controller: controller,
+          cursorColor: AppColors.textPrimary,
           style: TextStyle(color: AppColors.textPrimary),
           decoration: InputDecoration(
             hintText: hint,
@@ -104,6 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
       children: [
         TextField(
           controller: controller,
+          cursorColor: AppColors.textPrimary,
           obscureText: passwordVisible,
           style: TextStyle(color: AppColors.textPrimary),
           decoration: InputDecoration(
