@@ -61,7 +61,10 @@ class AuthController extends GetxController {
       );
 
       final uid = userCredential.user?.uid;
-      if (uid == null) throw FirebaseAuthException(code: 'no-user', message: 'User ID is null');
+      if (uid == null) {
+        throw FirebaseAuthException(
+            code: 'no-user', message: 'User ID is null');
+      }
 
       final doc = await _firestore.collection('tripusers').doc(uid).get();
       if (!doc.exists) {

@@ -1,8 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:travel_trip_task/auth/signup_screen.dart';
 import 'package:travel_trip_task/controller/auth_controller.dart';
 import 'package:travel_trip_task/core/appColor.dart';
+import 'package:travel_trip_task/screens/dashboard_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -37,10 +40,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        Text("Welcome!", style: TextStyle(fontSize: 30, color: AppColors.textPrimary)),
+                        Text("Welcome!",
+                            style: TextStyle(
+                                fontSize: 30, color: AppColors.textPrimary)),
                         const SizedBox(height: 30),
-                        _buildTextField(emailController, "Enter Email", Icons.email),
-                        _buildPasswordField(passwordController, "Enter Password"),
+                        _buildTextField(
+                            emailController, "Enter Email", Icons.email),
+                        _buildPasswordField(
+                            passwordController, "Enter Password"),
                         const SizedBox(height: 30),
                         ElevatedButton(
                           onPressed: () async {
@@ -50,10 +57,16 @@ class _LoginScreenState extends State<LoginScreen> {
                             );
 
                             if (success) {
-                              Get.snackbar('Success', 'Login successful',backgroundColor: AppColors.textPrimary);
+                              Get.snackbar('Success', 'Login successful',
+                                  backgroundColor: AppColors.textPrimary);
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => DashboardScreen(),
+                              ));
                               // Navigate to main dashboard or home screen
                             } else {
-                              Get.snackbar('Error', authController.errorMessage.value,backgroundColor: AppColors.textPrimary);
+                              Get.snackbar(
+                                  'Error', authController.errorMessage.value,
+                                  backgroundColor: AppColors.textPrimary);
                             }
                           },
                           child: const Text("  Login  "),
@@ -61,10 +74,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text("Don't have an account?", style: TextStyle(color: AppColors.textPrimary)),
+                            Text("Don't have an account?",
+                                style: TextStyle(color: AppColors.textPrimary)),
                             TextButton(
-                              onPressed: () => Get.to(() => const SignupScreen()),
-                              child: Text("Sign Up", style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold)),
+                              onPressed: () =>
+                                  Get.to(() => const SignupScreen()),
+                              child: Text("Sign Up",
+                                  style: TextStyle(
+                                      color: AppColors.textPrimary,
+                                      fontWeight: FontWeight.bold)),
                             )
                           ],
                         ),
@@ -80,7 +98,8 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildTextField(TextEditingController controller, String hint, IconData icon) {
+  Widget _buildTextField(
+      TextEditingController controller, String hint, IconData icon) {
     return Column(
       children: [
         TextField(
@@ -91,8 +110,10 @@ class _LoginScreenState extends State<LoginScreen> {
             hintText: hint,
             hintStyle: TextStyle(color: AppColors.textPrimary),
             prefixIcon: Icon(icon, color: AppColors.textPrimary),
-            enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.white)),
-            focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+            enabledBorder: const UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white)),
+            focusedBorder: const UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white)),
           ),
         ),
         const SizedBox(height: 20),
@@ -113,15 +134,19 @@ class _LoginScreenState extends State<LoginScreen> {
             hintStyle: TextStyle(color: AppColors.textPrimary),
             prefixIcon: Icon(Icons.lock, color: AppColors.textPrimary),
             suffixIcon: IconButton(
-              icon: Icon(passwordVisible ? Icons.visibility_off : Icons.visibility, color: AppColors.textPrimary),
+              icon: Icon(
+                  passwordVisible ? Icons.visibility_off : Icons.visibility,
+                  color: AppColors.textPrimary),
               onPressed: () {
                 setState(() {
                   passwordVisible = !passwordVisible;
                 });
               },
             ),
-            enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.white)),
-            focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+            enabledBorder: const UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white)),
+            focusedBorder: const UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white)),
           ),
         ),
         const SizedBox(height: 20),
