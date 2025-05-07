@@ -22,7 +22,10 @@ class _GetstartscreenState extends State<Getstartscreen> {
           //   "https://image.winudf.com/v2/image1/Y29tLmtpc3NhbmRmbHkuYXZpYV9zY3JlZW5fMF8xNzIyOTQ1ODA3XzAzOA/screen-0.jpg?fakeurl=1&type=.jpg",
           //   fit: BoxFit.cover,
           // ),
-          child: Image.asset("assets/images/onboarding1.png",fit: BoxFit.cover,),
+          child: Image.asset(
+            "assets/images/onboarding1.png",
+            fit: BoxFit.cover,
+          ),
         ),
         Align(
           alignment: Alignment.bottomCenter,
@@ -31,8 +34,13 @@ class _GetstartscreenState extends State<Getstartscreen> {
             child: SizedBox(
               width: 200,
               child: ElevatedButton(
-                onPressed: () {      Get.to(() => LoginScreen());
-                }, child: Text("Get Started",style: TextStyle(fontSize: 18),),
+                onPressed: () {
+                  Get.to(() => LoginScreen());
+                },
+                child: Text(
+                  "Get Started",
+                  style: TextStyle(fontSize: 18),
+                ),
               ),
             ),
           ),
