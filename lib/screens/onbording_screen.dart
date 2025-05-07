@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:travel_trip_task/auth/login_screen.dart';
 
 class Getstartscreen extends StatefulWidget {
@@ -31,7 +32,7 @@ class _GetstartscreenState extends State<Getstartscreen> {
               width: 200,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginScreen(),));
+                  Get.to(() => LoginScreen());
                 }, child: Text("Get Started",style: TextStyle(fontSize: 18),),
               ),
             ),

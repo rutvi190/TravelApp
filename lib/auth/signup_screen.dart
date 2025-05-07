@@ -63,8 +63,8 @@ class _SignupScreenState extends State<SignupScreen> {
                             );
 
                             if (success) {
+                              Get.to(() => DashboardScreen());
                               Get.snackbar('Success', 'Account created successfully',backgroundColor: AppColors.textPrimary);
-                              Get.off(() => DashboardScreen());
                             } else {
                               Get.snackbar('Error', authController.errorMessage.value,backgroundColor: AppColors.textPrimary);
                             }

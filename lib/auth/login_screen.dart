@@ -1,4 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -59,10 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             if (success) {
                               Get.snackbar('Success', 'Login successful',
                                   backgroundColor: AppColors.textPrimary);
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => DashboardScreen(),
-                              ));
-                              // Navigate to main dashboard or home screen
+                              Get.to(() => DashboardScreen());
                             } else {
                               Get.snackbar(
                                   'Error', authController.errorMessage.value,
