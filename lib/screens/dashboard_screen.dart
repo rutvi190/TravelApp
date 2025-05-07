@@ -1,8 +1,11 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:travel_trip_task/core/appColor.dart';
+import 'package:travel_trip_task/core/app_color.dart';
 import 'package:travel_trip_task/screens/create_trip_screen.dart';
-import 'package:travel_trip_task/screens/settings_screen.dart';
+import 'package:travel_trip_task/screens/plan_screen.dart';
+import 'package:travel_trip_task/screens/profile_screen.dart';
+import 'package:travel_trip_task/screens/budget_screen.dart';
+import 'package:travel_trip_task/screens/services_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -12,59 +15,44 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  int _selectedIndex = 0;
+
+  final List<Widget> _items = [
+    Icon(Icons.flight_outlined, size: 30),
+    Icon(Icons.money, size: 30),
+    Icon(Icons.add, size: 30),
+    Icon(Icons.dry_cleaning_outlined, size: 30),
+    Icon(Icons.person_outline, size: 30),
+  ];
+
+  final List<Widget> _screens = [
+    PlanScreen(),       
+    BudgetScreen(),      
+    CreateTripScreen(),  
+    ServicesScreen(),    
+    ProfileScreen(),     
+  ];
+
+  void _onTap(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.primaryColor,
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.notifications,
-              color: AppColors.textPrimary,
-            )
-          ),
-          IconButton(
-            onPressed: () {
-              Get.to(() => SettingsScreen());
-            },
-            icon: Icon(
-              Icons.settings,
-              color: AppColors.textPrimary,
-            )
-          )
-        ],
-      ),
-      body: Column(
-        children: [
-          Stack(
-            children: [
-              Container(
-                height: 150,
-                color: AppColors.primaryColor,
-              ),
-              Positioned(
-                bottom: 20,
-                left: 16,
-                child: GestureDetector(
-                  onTap: () {
-                    Get.to(() => CreateTripScreen());
-                  },
-                  child: Container(
-                    height: 50,
-                    width: 150,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: AppColors.textPrimary,
-                    ),
-                    child: Center(child: Text("Create Trip",style: TextStyle(fontSize: 16,color: AppColors.primaryColor,fontWeight: FontWeight.bold),)),
-                  ),
-                ),
-              )
-            ],
-          )
-        ],
+      backgroundColor: Colors.white,
+      body: _screens[_selectedIndex], 
+      bottomNavigationBar: CurvedNavigationBar(
+        backgroundColor: Colors.transparent,
+        color: Colors.white,
+        buttonBackgroundColor: AppColors.primaryColor,
+        height: 60,
+        animationDuration: const Duration(milliseconds: 300),
+        items: _items,
+        index: _selectedIndex,
+        onTap: _onTap,
       ),
     );
   }

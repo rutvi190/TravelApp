@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:travel_trip_task/core/appColor.dart';
+import 'package:travel_trip_task/core/app_color.dart';
 import 'package:travel_trip_task/screens/dashboard_screen.dart';
 
 class CreateTripScreen extends StatefulWidget {
@@ -13,9 +13,12 @@ class CreateTripScreen extends StatefulWidget {
 class _CreateTripScreenState extends State<CreateTripScreen> {
   final TextEditingController fromController = TextEditingController(text: "");
   final TextEditingController toController = TextEditingController(text: "");
-  final TextEditingController departureController = TextEditingController(text: "");
-  final TextEditingController returnController = TextEditingController(text: "");
-  final TextEditingController passengerController = TextEditingController(text: "");
+  final TextEditingController departureController =
+      TextEditingController(text: "");
+  final TextEditingController returnController =
+      TextEditingController(text: "");
+  final TextEditingController passengerController =
+      TextEditingController(text: "");
   final TextEditingController classController = TextEditingController(text: "");
 
   List<Map<String, String>> passengers = [];
@@ -44,19 +47,20 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                 color: AppColors.primaryColor,
               ),
               Positioned(
-                top: 20,
-                child: IconButton(
-                  onPressed: () {
-                    Get.to(() => DashboardScreen());
-                  }, 
-                  icon: Icon(Icons.arrow_back,color: AppColors.textPrimary,)
-                )
-              ),
+                  top: 20,
+                  child: IconButton(
+                      onPressed: () {
+                        Get.to(() => DashboardScreen());
+                      },
+                      icon: Icon(
+                        Icons.arrow_back,
+                        color: AppColors.textPrimary,
+                      ))),
               Positioned(
                 bottom: 20,
                 left: 16,
                 child: Text(
-                  "Let's Book Your\nNext Flight",
+                  "Let's Create Your\nNext Trip",
                   style: TextStyle(
                     fontSize: 25,
                     color: AppColors.textPrimary,
@@ -99,30 +103,24 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                             ],
                           ),
                           child: const Icon(
-                            Icons.swap_vert,
+                            Icons.connecting_airports_outlined,
                             color: AppColors.primaryColor,
-                            size: 20,
+                            size: 25,
                           ),
                         ),
                       ),
                     ],
                   ),
-                  //const SizedBox(height: 20),
-                  // Column(
-                  //   children: [
-                  //     _buildTextBox(title: "Name", controller: toController),
-                  //   ],
-                  // ),
                   const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       _buildTextBox(
-                          title: "Date",
+                          title: "Start Date",
                           controller: departureController,
                           width: 160),
                       _buildTextBox(
-                          title: "Return Date",
+                          title: "End Date",
                           controller: returnController,
                           width: 160),
                     ],
@@ -132,11 +130,11 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       _buildTextBox(
-                          title: "Total Passengers",
+                          title: "Total Persons",
                           controller: passengerController,
                           width: 160),
                       _buildTextBox(
-                          title: "Class",
+                          title: "Time",
                           controller: classController,
                           width: 160),
                     ],
@@ -148,12 +146,6 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                       GestureDetector(
                         onTap: () {
                           _showAddPassengerSheet(context);
-                          // setState(() {
-                          //   passengers.add({
-                          //     'name': name,
-                          //     'age': age,
-                          //   });
-                          // });
                         },
                         child: Row(
                           children: [
@@ -199,7 +191,7 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                     height: 50,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.deepPurple,
+                        backgroundColor: AppColors.primaryColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(25),
                         ),
@@ -207,15 +199,15 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                       onPressed: () {
                         final from = fromController.text;
                         final to = toController.text;
-                        final departure = departureController.text;
-                        final returning = returnController.text;
-                        final passengers = passengerController.text;
+                        //final departure = departureController.text;
+                        //final returning = returnController.text;
+                        //final passengers = passengerController.text;
                         //final travelClass = classController.text;
 
                         print('Booking from $from to $to');
                       },
                       child: Text(
-                        "Book Now",
+                        "Create Trip",
                         style: TextStyle(
                             fontSize: 16, color: AppColors.textPrimary),
                       ),
@@ -257,11 +249,11 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                   color: Color.fromARGB(255, 102, 101, 101),
                   fontSize: 12,
                   fontWeight: FontWeight.bold)),
-          const SizedBox(height: 4),
+          SizedBox(height: 4),
           TextField(
             controller: controller,
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               isDense: true,
               contentPadding: EdgeInsets.zero,
               border: InputBorder.none,
@@ -299,20 +291,26 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text("Add New Passenger",style:TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  const Text("Add New Passenger",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                   const SizedBox(height: 20),
                   _buildTextBox(title: "Name", controller: nameController),
                   const SizedBox(height: 12),
                   _buildTextBox(title: "Age", controller: ageController),
                   const SizedBox(height: 12),
-                  _buildTextBox(title: "Contact", controller: contactController),
+                  _buildTextBox(
+                      title: "Contact", controller: contactController),
                   const SizedBox(height: 12),
-                  _buildTextBox(title: "Nationality", controller: nationalityController),
+                  _buildTextBox(
+                      title: "Nationality", controller: nationalityController),
                   const SizedBox(height: 12),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(" Gender",style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                      const Text(" Gender",
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold)),
                       Row(
                         children: [
                           Expanded(
@@ -365,7 +363,7 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                           Navigator.pop(context);
                         }
                       },
-                      child:  Text("Save Passenger",
+                      child: Text("Save Passenger",
                           style: TextStyle(color: AppColors.textPrimary)),
                     ),
                   ),

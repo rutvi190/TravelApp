@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:travel_trip_task/auth/login_screen.dart';
 import 'package:travel_trip_task/controller/auth_controller.dart';
-import 'package:travel_trip_task/core/appColor.dart';
+import 'package:travel_trip_task/core/app_color.dart';
 import 'package:travel_trip_task/screens/dashboard_screen.dart';
 
 class SignupScreen extends StatefulWidget {

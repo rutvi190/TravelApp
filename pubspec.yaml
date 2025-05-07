@@ -38,6 +38,8 @@ dependencies:
   cloud_firestore: ^5.6.7
   get: ^4.7.2
   firebase_core: ^3.13.0
+  curved_navigation_bar: ^1.0.6
+  dotted_line: ^3.2.3
 
 dev_dependencies:
   flutter_test:
