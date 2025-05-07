@@ -10,6 +10,7 @@ class AppRoutes {
   static const dashboard = '/dashboard';
   static const settings = '/settings';
 
+
   static final routes = [
     GetPage(name: login, page: () => LoginScreen()),
     GetPage(name: signup, page: () => SignupScreen()),

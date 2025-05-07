@@ -31,8 +31,7 @@ class _GetstartscreenState extends State<Getstartscreen> {
             child: SizedBox(
               width: 200,
               child: ElevatedButton(
-                onPressed: () {
-                  Get.to(() => LoginScreen());
+                onPressed: () {      Get.to(() => LoginScreen());
                 }, child: Text("Get Started",style: TextStyle(fontSize: 18),),
               ),
             ),

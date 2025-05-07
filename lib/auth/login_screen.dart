@@ -43,10 +43,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             style: TextStyle(
                                 fontSize: 30, color: AppColors.textPrimary)),
                         const SizedBox(height: 30),
-                        _buildTextField(
-                            emailController, "Enter Email", Icons.email),
-                        _buildPasswordField(
-                            passwordController, "Enter Password"),
+                        _buildTextField(emailController, "Enter Email", Icons.email),
+                        _buildPasswordField(passwordController, "Enter Password"),
                         const SizedBox(height: 30),
                         ElevatedButton(
                           onPressed: () async {
@@ -56,9 +54,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             );
 
                             if (success) {
-                              Get.snackbar('Success', 'Login successful',
-                                  backgroundColor: AppColors.textPrimary);
-                              Get.to(() => DashboardScreen());
+                              Get.snackbar('Success', 'Login successful',backgroundColor: AppColors.textPrimary);
+                              // Navigate to main dashboard or home screen
                             } else {
                               Get.snackbar(
                                   'Error', authController.errorMessage.value,
@@ -73,12 +70,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             Text("Don't have an account?",
                                 style: TextStyle(color: AppColors.textPrimary)),
                             TextButton(
-                              onPressed: () =>
-                                  Get.to(() => const SignupScreen()),
-                              child: Text("Sign Up",
-                                  style: TextStyle(
-                                      color: AppColors.textPrimary,
-                                      fontWeight: FontWeight.bold)),
+                              onPressed: () => Get.to(() => const SignupScreen()),
+                              child: Text("Sign Up", style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold)),
                             )
                           ],
                         ),
