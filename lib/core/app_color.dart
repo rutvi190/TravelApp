@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class AppColors {
@@ -8,5 +7,7 @@ class AppColors {
   static const Color textPrimary = Color(0xFFFFFFFF);
   static const Color dottedline = Color.fromARGB(255, 117, 117, 117);
   static const Color textdescrip = Color.fromARGB(255, 60, 60, 60);
-}
+  static const Color backgroundOverlay = Colors.black54;
 
+  static var textSecondary;
+}

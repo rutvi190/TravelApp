@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable, avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:travel_trip_task/core/app_color.dart';
@@ -203,7 +205,6 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                         //final returning = returnController.text;
                         //final passengers = passengerController.text;
                         //final travelClass = classController.text;
-
                         print('Booking from $from to $to');
                       },
                       child: Text(

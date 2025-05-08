@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
@@ -22,9 +24,28 @@ class AuthController extends GetxController {
       return false;
     }
 
+    if (!RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$")
+        .hasMatch(email)) {
+      errorMessage.value = 'Please enter a valid email address';
+      return false;
+    }
+
+    if (password.length < 6) {
+      errorMessage.value = 'Password must be at least 6 characters long';
+      return false;
+    }
+
     try {
       isLoading.value = true;
 
+      // Check if the email is already in use
+      final emailExists = await _auth.fetchSignInMethodsForEmail(email);
+      if (emailExists.isNotEmpty) {
+        errorMessage.value = 'Email is already in use';
+        return false;
+      }
+
+      // Create the user
       final userCredential = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
@@ -32,6 +53,7 @@ class AuthController extends GetxController {
 
       final uid = userCredential.user?.uid;
       if (uid != null) {
+        // Save the user details to Firestore
         await _firestore.collection('tripusers').doc(uid).set({
           'uid': uid,
           'username': username,
@@ -52,9 +74,26 @@ class AuthController extends GetxController {
   }
 
   Future<bool> login(String email, String password) async {
+    if (email.isEmpty || password.isEmpty) {
+      errorMessage.value = 'Email and Password cannot be empty';
+      return false;
+    }
+
+    if (!RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$")
+        .hasMatch(email)) {
+      errorMessage.value = 'Please enter a valid email address';
+      return false;
+    }
+
+    if (password.length < 6) {
+      errorMessage.value = 'Password must be at least 6 characters long';
+      return false;
+    }
+
     try {
       isLoading.value = true;
 
+      // Perform login
       final userCredential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
@@ -62,8 +101,8 @@ class AuthController extends GetxController {
 
       final uid = userCredential.user?.uid;
       if (uid == null) {
-        throw FirebaseAuthException(
-            code: 'no-user', message: 'User ID is null');
+        errorMessage.value = 'User ID is null';
+        return false;
       }
 
       final doc = await _firestore.collection('tripusers').doc(uid).get();

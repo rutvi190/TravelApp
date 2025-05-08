@@ -1,9 +1,11 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:travel_trip_task/auth/signup_screen.dart';
 import 'package:travel_trip_task/controller/auth_controller.dart';
 import 'package:travel_trip_task/core/app_color.dart';
+
+import 'package:travel_trip_task/core/app_strings.dart';
+import 'package:travel_trip_task/widgets/common_widgets.dart';
 import 'package:travel_trip_task/screens/dashboard_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -15,67 +17,132 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final authController = Get.put(AuthController());
+  final _formKey = GlobalKey<FormState>();
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   bool passwordVisible = true;
 
+  String? validateEmail(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return AppStrings.emptyEmail;
+    }
+    final emailRegex =
+        RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
+    if (!emailRegex.hasMatch(value.trim())) {
+      return AppStrings.invalidEmail;
+    }
+    return null;
+  }
+
+  String? validatePassword(String? value) {
+    if (value == null || value.length < 6) {
+      return AppStrings.shortPassword;
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(() => Stack(
             children: [
-              Image.asset(
-                "assets/images/background1.png",
-                height: double.infinity,
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
-              Container(color: Colors.black.withOpacity(0.3)),
+              backgroundImageWithOverlay("assets/images/image.jpg"),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Center(
                   child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Text("Welcome!",
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 100,
+                            width: 100,
+                            color: Colors.white,
+                            child: Image.asset(
+                              'assets/images/logo.png',
+                              height: 200,
+                              width: 300,
+                            ),
+                          ),
+                          Text(
+                            AppStrings.welcome,
                             style: TextStyle(
-                                fontSize: 30, color: AppColors.textPrimary)),
-                        const SizedBox(height: 30),
-                        _buildTextField(emailController, "Enter Email", Icons.email),
-                        _buildPasswordField(passwordController, "Enter Password"),
-                        const SizedBox(height: 30),
-                        ElevatedButton(
-                          onPressed: () async {
-                            final success = await authController.login(
-                              emailController.text.trim(),
-                              passwordController.text,
-                            );
+                              fontSize: 30,
+                              color: AppColors.textPrimary,
+                            ),
+                          ),
+                          const SizedBox(height: 30),
+                          customTextField(
+                            controller: emailController,
+                            hint: AppStrings.emailHint,
+                            icon: Icons.email,
+                            validator: validateEmail,
+                          ),
+                          customPasswordField(
+                            controller: passwordController,
+                            hint: AppStrings.passwordHint,
+                            isObscured: passwordVisible,
+                            toggleVisibility: () {
+                              setState(() {
+                                passwordVisible = !passwordVisible;
+                              });
+                            },
+                            validator: validatePassword,
+                          ),
+                          const SizedBox(height: 30),
+                          ElevatedButton(
+                            onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
+                                final success = await authController.login(
+                                  emailController.text.trim(),
+                                  passwordController.text,
+                                );
 
-                            if (success) {
-                              Get.snackbar('Success', 'Login successful',backgroundColor: AppColors.textPrimary);
-                              // Navigate to main dashboard or home screen
-                            } else {
-                              Get.snackbar(
-                                  'Error', authController.errorMessage.value,
-                                  backgroundColor: AppColors.textPrimary);
-                            }
-                          },
-                          child: const Text("  Login  "),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("Don't have an account?",
-                                style: TextStyle(color: AppColors.textPrimary)),
-                            TextButton(
-                              onPressed: () => Get.to(() => const SignupScreen()),
-                              child: Text("Sign Up", style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold)),
-                            )
-                          ],
-                        ),
-                      ],
+                                if (success) {
+                                  Get.snackbar(
+                                    'Success',
+                                    AppStrings.loginSuccess,
+                                    backgroundColor: Colors.green,
+                                    colorText: Colors.white,
+                                  );
+                                  Get.offAll(() => const DashboardScreen());
+                                } else {
+                                  Get.snackbar(
+                                    'Error',
+                                    authController.errorMessage.value,
+                                    backgroundColor: Colors.redAccent,
+                                    colorText: Colors.white,
+                                  );
+                                }
+                              } else {
+                                debugPrint("Validation failed");
+                              }
+                            },
+                            child: const Text("Login"),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(AppStrings.noAccount,
+                                  style:
+                                      TextStyle(color: AppColors.textPrimary)),
+                              TextButton(
+                                onPressed: () => Get.to(() => SignupScreen()),
+                                child: Text(
+                                  AppStrings.signUp,
+                                  style: TextStyle(
+                                    color: AppColors.textPrimary,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -84,62 +151,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 const Center(child: CircularProgressIndicator()),
             ],
           )),
-    );
-  }
-
-  Widget _buildTextField(
-      TextEditingController controller, String hint, IconData icon) {
-    return Column(
-      children: [
-        TextField(
-          controller: controller,
-          cursorColor: AppColors.textPrimary,
-          style: TextStyle(color: AppColors.textPrimary),
-          decoration: InputDecoration(
-            hintText: hint,
-            hintStyle: TextStyle(color: AppColors.textPrimary),
-            prefixIcon: Icon(icon, color: AppColors.textPrimary),
-            enabledBorder: const UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white)),
-            focusedBorder: const UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white)),
-          ),
-        ),
-        const SizedBox(height: 20),
-      ],
-    );
-  }
-
-  Widget _buildPasswordField(TextEditingController controller, String hint) {
-    return Column(
-      children: [
-        TextField(
-          controller: controller,
-          cursorColor: AppColors.textPrimary,
-          obscureText: passwordVisible,
-          style: TextStyle(color: AppColors.textPrimary),
-          decoration: InputDecoration(
-            hintText: hint,
-            hintStyle: TextStyle(color: AppColors.textPrimary),
-            prefixIcon: Icon(Icons.lock, color: AppColors.textPrimary),
-            suffixIcon: IconButton(
-              icon: Icon(
-                  passwordVisible ? Icons.visibility_off : Icons.visibility,
-                  color: AppColors.textPrimary),
-              onPressed: () {
-                setState(() {
-                  passwordVisible = !passwordVisible;
-                });
-              },
-            ),
-            enabledBorder: const UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white)),
-            focusedBorder: const UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white)),
-          ),
-        ),
-        const SizedBox(height: 20),
-      ],
     );
   }
 }

@@ -1,87 +1,130 @@
+// ignore_for_file: deprecated_member_use
+
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:travel_trip_task/auth/login_screen.dart';
-import 'package:travel_trip_task/controller/auth_controller.dart';
-import 'package:travel_trip_task/core/app_color.dart';
-import 'package:travel_trip_task/screens/dashboard_screen.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
+import '../controller/auth_controller.dart';
+import '../core/app_color.dart';
+import '../core/app_strings.dart';
+import '../screens/dashboard_screen.dart';
+import '../widgets/common_widgets.dart';
 
-class SignupScreen extends StatefulWidget {
-  const SignupScreen({super.key});
 
-  @override
-  State<SignupScreen> createState() => _SignupScreenState();
-}
+class SignupScreen extends StatelessWidget {
+  SignupScreen({super.key});
 
-class _SignupScreenState extends State<SignupScreen> {
-  final authController = Get.put(AuthController());
+  final AuthController authController = Get.put(AuthController());
 
-  final TextEditingController usernameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController contactController = TextEditingController();
-  final TextEditingController roleController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final usernameController = TextEditingController();
+  final emailController = TextEditingController();
+  final contactController = TextEditingController();
+  final roleController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
+  final RxBool isPasswordVisible = false.obs;
+  final RxBool isConfirmPasswordVisible = false.obs;
 
-  bool passwordVisible = true;
+  final List<String> roles = ['User', 'Provider'];
+  final RxString selectedRole = ''.obs;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(() => Stack(
             children: [
-              Image.asset(
-                "assets/images/background1.png",
-                height: double.infinity,
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
+              backgroundImageWithOverlay("assets/images/image.jpg"),
               Container(color: Colors.black.withOpacity(0.3)),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Center(
                   child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Text("Create Account!", style: TextStyle(fontSize: 30, color: AppColors.textPrimary)),
-                        const SizedBox(height: 30),
-                        _buildTextField(usernameController, "User Name", Icons.person),
-                        _buildTextField(emailController, "Email Address", Icons.email),
-                        _buildTextField(contactController, "Contact Number", Icons.call),
-                        _buildTextField(roleController, "Select Role", Icons.person_pin),
-                        _buildPasswordField(passwordController, "Password"),
-                        _buildPasswordField(confirmPasswordController, "Confirm Password"),
-                        const SizedBox(height: 30),
-                        ElevatedButton(
-                          onPressed: () async {
-                            final success = await authController.signup(
-                              username: usernameController.text.trim(),
-                              email: emailController.text.trim(),
-                              contact: contactController.text.trim(),
-                              role: roleController.text.trim(),
-                              password: passwordController.text,
-                              confirmPassword: confirmPasswordController.text,
-                            );
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          Text(AppStrings.signupTitle,
+                              style: TextStyle(
+                                  fontSize: 30, color: AppColors.textPrimary)),
+                          const SizedBox(height: 30),
+                          _buildTextField(
+                              controller: usernameController,
+                              hintText: AppStrings.usernameHint,
+                              icon: Icons.person),
+                          _buildTextField(
+                              controller: emailController,
+                              hintText: AppStrings.emailHint,
+                              icon: Icons.email,
+                              inputType: TextInputType.emailAddress),
+                          _buildTextField(
+                              controller: contactController,
+                              hintText: AppStrings.contactHint,
+                              icon: Icons.call,
+                              inputType: TextInputType.phone),
+                          Padding(
+                            padding: const EdgeInsets.all(.0),
+                            child: _buildDropdownField(),
+                          ),
+                          _buildTextField(
+                            controller: passwordController,
+                            hintText: AppStrings.passwordHint,
+                            icon: Icons.lock,
+                            obscure: true,
+                            visibilityToggle: isPasswordVisible,
+                          ),
+                          _buildTextField(
+                            controller: confirmPasswordController,
+                            hintText: AppStrings.confirmPasswordHint,
+                            icon: Icons.lock_outline,
+                            obscure: true,
+                            visibilityToggle: isConfirmPasswordVisible,
+                          ),
+                          const SizedBox(height: 30),
+                          ElevatedButton(
+                            onPressed: () async {
+                              final success = await authController.signup(
+                                username: usernameController.text.trim(),
+                                email: emailController.text.trim(),
+                                contact: contactController.text.trim(),
+                                role: roleController.text.trim(),
+                                password: passwordController.text.trim(),
+                                confirmPassword:
+                                    confirmPasswordController.text.trim(),
+                              );
 
-                            if (success) {
-                              Get.to(() => DashboardScreen());
-                              Get.snackbar('Success', 'Account created successfully',backgroundColor: AppColors.textPrimary);
-                            } else {
-                              Get.snackbar('Error', authController.errorMessage.value,backgroundColor: AppColors.textPrimary);
-                            }
-                          },
-                          child: const Text("  Sign Up  "),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("Already Have an Account?", style: TextStyle(color: AppColors.textPrimary)),
-                            TextButton(
-                              onPressed: () => Get.to(() => LoginScreen()),
-                              child: Text("Sign In", style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold)),
-                            )
-                          ],
-                        ),
-                      ],
+                              if (success) {
+                                Get.offAll(() => DashboardScreen());
+                                Get.snackbar("Success", "Signup completed!",
+                                    backgroundColor: Colors.green);
+                              } else {
+                                Get.snackbar(
+                                    "Error", authController.errorMessage.value,
+                                    backgroundColor: Colors.redAccent);
+                              }
+                            },
+                            child: const Text("Sign Up"),
+                          ),
+                          const SizedBox(height: 10),
+                          RichText(
+                            text: TextSpan(
+                              text: 'Already have an account?  ',
+                              style: TextStyle(color: AppColors.textPrimary),
+                              children: [
+                                TextSpan(
+                                  text: 'Sign In',
+                                  style: TextStyle(
+                                    color: AppColors.textPrimary,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () => Get.back(),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -93,51 +136,104 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  Widget _buildTextField(TextEditingController controller, String hint, IconData icon) {
-    return Column(
-      children: [
-        TextField(
-          controller: controller,
-          cursorColor: AppColors.textPrimary,
-          style: TextStyle(color: AppColors.textPrimary),
-          decoration: InputDecoration(
-            hintText: hint,
-            hintStyle: TextStyle(color: AppColors.textPrimary),
-            suffixIcon: Icon(icon, color: AppColors.textPrimary),
-            enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.white)),
-            focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.white)),
-          ),
-        ),
-        const SizedBox(height: 20),
-      ],
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String hintText,
+    required IconData icon,
+    bool obscure = false,
+    RxBool? visibilityToggle,
+    TextInputType inputType = TextInputType.text,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: visibilityToggle != null
+          ? Obx(() => TextFormField(
+                controller: controller,
+                keyboardType: inputType,
+                obscureText: obscure && visibilityToggle.value,
+                style: TextStyle(color: AppColors.textPrimary),
+                decoration: InputDecoration(
+                  hintText: hintText,
+                  hintStyle:
+                      TextStyle(color: AppColors.textPrimary.withOpacity(0.6)),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      visibilityToggle.value
+                          ? Icons.visibility_off
+                          : Icons.visibility,
+                      color: AppColors.textPrimary,
+                    ),
+                    onPressed: () =>
+                        visibilityToggle.value = !visibilityToggle.value,
+                  ),
+                  enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: AppColors.textPrimary)),
+                  focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: AppColors.textPrimary)),
+                ),
+              ))
+          : TextFormField(
+              controller: controller,
+              keyboardType: inputType,
+              obscureText: obscure,
+              style: TextStyle(color: AppColors.textPrimary),
+              decoration: InputDecoration(
+                hintText: hintText,
+                hintStyle:
+                    TextStyle(color: AppColors.textPrimary.withOpacity(0.6)),
+                suffixIcon: Icon(icon, color: AppColors.textPrimary),
+                enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: AppColors.textPrimary)),
+                focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: AppColors.textPrimary)),
+              ),
+            ),
     );
   }
 
-  Widget _buildPasswordField(TextEditingController controller, String hint) {
-    return Column(
-      children: [
-        TextField(
-          controller: controller,
-          cursorColor: AppColors.textPrimary,
-          obscureText: passwordVisible,
-          style: TextStyle(color: AppColors.textPrimary),
-          decoration: InputDecoration(
-            hintText: hint,
-            hintStyle: TextStyle(color: AppColors.textPrimary),
-            suffixIcon: IconButton(
-              icon: Icon(passwordVisible ? Icons.visibility_off : Icons.visibility, color: AppColors.textPrimary),
-              onPressed: () {
-                setState(() {
-                  passwordVisible = !passwordVisible;
-                });
-              },
+  Widget _buildDropdownField() {
+    return Obx(() => Padding(
+          padding: const EdgeInsets.only(bottom: 20),
+          child: DropdownButtonFormField2<String>(
+            value: selectedRole.value.isEmpty ? null : selectedRole.value,
+            isExpanded: true,
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.only(left: -12),
+              hintText: AppStrings.roleHint,
+              hintStyle:
+                  TextStyle(color: AppColors.textPrimary.withOpacity(0.6)),
+              enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: AppColors.textPrimary)),
+              focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: AppColors.textPrimary)),
+              suffixIcon: Icon(Icons.person_pin, color: AppColors.textPrimary),
             ),
-            enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.white)),
-            focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+            dropdownStyleData: DropdownStyleData(
+              decoration: BoxDecoration(
+                color: AppColors.primaryColor,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              elevation: 4,
+            ),
+            items: roles
+                .map((role) => DropdownMenuItem<String>(
+                      value: role,
+                      child: Text(
+                        role,
+                        style: TextStyle(
+                            color: AppColors.textPrimary,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ))
+                .toList(),
+            onChanged: (value) {
+              if (value != null) {
+                selectedRole.value = value;
+                roleController.text = value;
+              }
+            },
+            validator: (value) => value == null ? 'Please select a role' : null,
           ),
-        ),
-        const SizedBox(height: 20),
-      ],
-    );
+        ));
   }
 }

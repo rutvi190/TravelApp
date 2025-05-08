@@ -6,7 +6,7 @@ import 'package:travel_trip_task/screens/dashboard_screen.dart';
 
 import 'package:travel_trip_task/screens/onbording_screen.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MyApp());
@@ -24,6 +24,9 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      themeMode: ThemeMode.system,
       home: FirebaseAuth.instance.currentUser != null
           ? DashboardScreen()
           : Getstartscreen(),
